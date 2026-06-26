@@ -16,21 +16,18 @@ public class AuthController {
     private UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
-    String email = credenciales.get("email");
-    
-    // Imprimimos el email que llega para verificar si tiene espacios ocultos
-    System.out.println("DEBUG: Buscando usuario con email: '" + email + "'");
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
+        String email = credenciales.get("email");
+        String password = credenciales.get("password");
 
-    // Buscamos solo por email (como configuramos en el repositorio)
-    String rol = usuarioRepository.obtenerRolPorCredenciales(email);
+        String rol = usuarioRepository.obtenerRolPorCredenciales(email, password);
 
-    if (rol != null) {
-        System.out.println("DEBUG: Usuario encontrado, rol: " + rol);
-        return ResponseEntity.ok(Map.of("rol", rol));
-    } else {
-        System.out.println("DEBUG: NINGUN usuario encontrado con el email: '" + email + "'");
-        return ResponseEntity.status(401).body(Map.of("error", "Email no encontrado"));
+        if (rol != null) {
+            // Si las credenciales son correctas, devolvemos el rol en formato JSON
+            return ResponseEntity.ok(Map.of("rol", rol));
+        } else {
+            // Si fallan, devolvemos un error 401 (No autorizado)
+            return ResponseEntity.status(401).body(Map.of("error", "Credenciales inválidas"));
+        }
     }
-}
 }
