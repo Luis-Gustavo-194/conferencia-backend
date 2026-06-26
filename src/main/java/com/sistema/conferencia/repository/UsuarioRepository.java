@@ -13,7 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "SELECT r.nombre FROM usuario u " +
                    "JOIN usuario_rol ur ON u.id = ur.usuario_id " +
                    "JOIN rol r ON ur.rol_id = r.id " +
-                   "WHERE u.email = :email AND u.password_hash = :password LIMIT 1", 
-           nativeQuery = true)
+                   "WHERE u.email = :email AND u.password_hash = :password", // Asegúrate que el campo sea 'password_hash'
+          nativeQuery = true)
     String obtenerRolPorCredenciales(@Param("email") String email, @Param("password") String password);
 }
