@@ -16,18 +16,21 @@ public class AuthController {
     private UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
-        String email = credenciales.get("email");
-        String password = credenciales.get("password");
+public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
+    String email = credenciales.get("email");
+    String password = credenciales.get("password");
 
-        String rol = usuarioRepository.obtenerRolPorCredenciales(email, password);
+    // ESTO SE VERÁ EN LOS LOGS DE RENDER
+    System.out.println("DEBUG: Recibiendo email: " + email + " y password: " + password);
 
-        if (rol != null) {
-            // Si las credenciales son correctas, devolvemos el rol en formato JSON
-            return ResponseEntity.ok(Map.of("rol", rol));
-        } else {
-            // Si fallan, devolvemos un error 401 (No autorizado)
-            return ResponseEntity.status(401).body(Map.of("error", "Credenciales inválidas"));
-        }
+    String rol = usuarioRepository.obtenerRolPorCredenciales(email, password);
+
+    if (rol != null) {
+        return ResponseEntity.ok(Map.of("rol", rol));
+    } else {
+        // ESTO TAMBIÉN SE VERÁ EN LOS LOGS
+        System.out.println("DEBUG: Consulta SQL devolvió null para: " + email);
+        return ResponseEntity.status(401).body(Map.of("error", "Credenciales inválidas"));
     }
+}
 }
