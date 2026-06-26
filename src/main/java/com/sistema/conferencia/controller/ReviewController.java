@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/reviews")
-@CrossOrigin(origins = "*")
+// Eliminado @CrossOrigin(origins = "*")
 public class ReviewController {
 
     @Autowired

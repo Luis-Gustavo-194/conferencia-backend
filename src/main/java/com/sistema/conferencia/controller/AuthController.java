@@ -9,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
+// Eliminado @CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -23,10 +23,8 @@ public class AuthController {
         String rol = usuarioRepository.obtenerRolPorCredenciales(email, password);
 
         if (rol != null) {
-            // Si las credenciales son correctas, devolvemos el rol en formato JSON
             return ResponseEntity.ok(Map.of("rol", rol));
         } else {
-            // Si fallan, devolvemos un error 401 (No autorizado)
             return ResponseEntity.status(401).body(Map.of("error", "Credenciales inválidas"));
         }
     }

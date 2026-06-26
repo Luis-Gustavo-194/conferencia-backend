@@ -10,13 +10,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/articulos")
-@CrossOrigin(origins = "*") // Fundamental para que el frontend en JS no sea bloqueado
+// Eliminamos @CrossOrigin aquí para evitar conflictos con WebConfig.java
 public class ArticuloController {
 
     @Autowired
     private ArticuloRepository articuloRepository;
 
-    // Endpoint para listar todos los artículos (El que acabas de probar)
+    // Endpoint para listar todos los artículos
     @GetMapping
     public List<Articulo> listarTodos() {
         return articuloRepository.findAll();
@@ -28,7 +28,6 @@ public class ArticuloController {
         // Asignamos la fecha actual del sistema antes de guardar
         articulo.setFechaEnvio(LocalDateTime.now());
         articulo.setActivo(true);
-
         
         return articuloRepository.save(articulo);
     }
