@@ -23,7 +23,7 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
     // ESTO SE VERÁ EN LOS LOGS DE RENDER
     System.out.println("DEBUG: Recibiendo email: " + email + " y password: " + password);
 
-    String rol = usuarioRepository.obtenerRolPorCredenciales(email, password);
+    String rol = usuarioRepository.obtenerRolPorCredenciales(email);
 
     if (rol != null) {
         return ResponseEntity.ok(Map.of("rol", rol));
